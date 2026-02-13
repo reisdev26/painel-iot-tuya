@@ -25,14 +25,14 @@ app.use(cors());
 // =============================
 // 🔐 CONFIGURE AQUI
 // =============================
-const ACCESS_ID = "rhvgknh5uwah38frs49k";
-const ACCESS_SECRET = "a6054f20e06a4adb9bfc354a1ace2266";
+const ACCESS_ID = "ACCESS_ID";
+const ACCESS_SECRET = "ACCESS_SECRET";
 
 // Lista de dispositivos
 const DEVICES = [
-  { name: "Datacenter CLM", deviceId: "ebe727058bd85fa14amatf" },
-  { name: "AR CPD CLM", deviceId: "eb24738d17461d7f73unyn" },
-  { name: "Termostato CPD CLM Moema", deviceId: "ebc657705b8ddcb163cmth" },
+  { name: "Datacenter CLM", deviceId: "ID_DEVICES" },
+  { name: "AR CPD CLM", deviceId: "ID_DEVICES" },
+  { name: "Termostato CPD CLM Moema", deviceId: "ID_DEVICES" },
 ];
 
 // 🌎 Ajuste conforme seu Data Center
