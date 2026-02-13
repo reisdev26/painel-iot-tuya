@@ -1,7 +1,5 @@
 \# 🧠 Painel IoT de Monitoramento – Tuya Cloud
 
-
-
 📌 \*\*Projeto:\*\* Painel web para monitoramento de dispositivos IoT usando a API da Tuya  
 
 📌 \*\*Autor:\*\* Welerson Reis  
@@ -13,8 +11,6 @@
 📌 \*\*Versão:\*\* 2.0  
 
 📌 \*\*Data:\*\* 2026
-
-
 
 ---
 
@@ -84,108 +80,7 @@ Ideal para visualização em telas de operação, estações de monitoramento ou
 
 ✔ CORS  
 
-
-
 ---
-
-
-
-\## 📁 Estrutura do Projeto
-
-
-
-\# 🧠 Painel IoT de Monitoramento – Tuya Cloud
-
-
-
-📌 \*\*Projeto:\*\* Painel web para monitoramento de dispositivos IoT usando a API da Tuya  
-
-📌 \*\*Autor:\*\* Welerson Reis  
-
-📌 \*\*GitHub:\*\* https://github.com/reisdev26  
-
-📌 \*\*LinkedIn:\*\* https://www.linkedin.com/in/welerson-reis-/  
-
-📌 \*\*Versão:\*\* 2.0  
-
-📌 \*\*Data:\*\* 2026
-
-
-
----
-
-
-
-\## 📌 Sobre
-
-
-
-Este projeto é um painel de monitoramento em tempo real de dispositivos IoT integrados à plataforma Tuya Cloud. Ele exibe:
-
-
-
-\- Temperatura e umidade de sensores compatíveis  
-
-\- Status Online/Offline de dispositivos sem sensores  
-
-\- Destaque visual conforme níveis de alerta de temperatura  
-
-\- Atualização automática de dados  
-
-\- Layout moderno e responsivo  
-
-
-
-Ideal para visualização em telas de operação, estações de monitoramento ou gestão de ambiente.
-
-
-
----
-
-
-
-\## 🧠 Funcionalidades
-
-
-
-\### 🌡️ Principal
-
-✔ Dashboard central com destaque para o dispositivo que reporta temperatura e umidade  
-
-✔ Layout estilizado com cores e alertas visuais  
-
-✔ Relógio e data em tempo real  
-
-✔ Atualização periódica automática  
-
-✔ Compatível com múltiplos dispositivos na mesma rede  
-
-
-
----
-
-
-
-\## 🧩 Tecnologias Utilizadas
-
-
-
-✔ Node.js (Express)  
-
-✔ Axios  
-
-✔ HTML5 / CSS3 / JavaScript  
-
-✔ API Tuya Cloud  
-
-✔ CORS  
-
-
-
----
-
-
-
 \## 📁 Estrutura do Projeto
 
 
