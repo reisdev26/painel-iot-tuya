@@ -4,16 +4,18 @@
  *  Autor: Welerson Reis
  *  Versão: 2.0
  *  Data: 2026
- *  Descrição:
+ *  Descrição: Painel para monitorar a temperatura do CPD
  *  Dashboard para monitoramento de dispositivos IoT (Temperatura,
  *  Umidade e Status Online) integrado com Tuya Cloud API.
  *
  *  GitHub:** https://github.com/reisdev26  
  *  LinkedIn:** https://www.linkedin.com/in/welerson-reis-/  
  *
+ *
  * ============================================================
  */
-
+ 
+require('dotenv').config();
 const express = require("express");
 const axios = require("axios");
 const crypto = require("crypto");
@@ -22,17 +24,22 @@ const cors = require("cors");
 const app = express();
 app.use(cors());
 
+const Datacenter_CLM_ID_DEVICES = process.env.Datacenter_CLM_ID_DEVICES;
+const AR_CPD_CLM_ID_DEVICES = process.env.AR_CPD_CLM_ID_DEVICES;
+const Termostato_CPD_CLM_Moema_ID_DEVICES = process.env.Termostato_CPD_CLM_Moema_ID_DEVICES;
+
+
 // =============================
 // 🔐 CONFIGURE AQUI
 // =============================
-const ACCESS_ID = "ACCESS_ID";
-const ACCESS_SECRET = "ACCESS_SECRET";
+const ACCESS_ID = process.env.ACCESS_ID;
+const ACCESS_SECRET = process.env.ACCESS_SECRET;
 
 // Lista de dispositivos
 const DEVICES = [
-  { name: "Datacenter CLM", deviceId: "ID_DEVICES" },
-  { name: "AR CPD CLM", deviceId: "ID_DEVICES" },
-  { name: "Termostato CPD CLM Moema", deviceId: "ID_DEVICES" },
+  { name: "Datacenter CLM", deviceId: Datacenter_CLM_ID_DEVICES },
+  { name: "AR CPD CLM", deviceId: AR_CPD_CLM_ID_DEVICES },
+  { name: "Termostato CPD CLM Moema", deviceId: Termostato_CPD_CLM_Moema_ID_DEVICES },
 ];
 
 // 🌎 Ajuste conforme seu Data Center
