@@ -1,3 +1,6 @@
+## 📷 Preview do Dashboard
+![Dashboard Preview](./screenshot.png)
+
 \# 🧠 Painel IoT de Monitoramento – Tuya Cloud
 
 📌 \*\*Projeto:\*\* Painel web para monitoramento de dispositivos IoT usando a API da Tuya  
