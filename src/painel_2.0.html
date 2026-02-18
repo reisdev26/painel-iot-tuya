@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta name="author" content="Welerson Reis">
+<meta name="project" content="Painel IoT Monitor v2.0">
+<meta charset="UTF-8">
+<title>Painel de Dispositivos</title>
+</head>
+<body>
+<div class="header">
+  <div class="header-left">
+    <div class="title">	Painel IoT Monitor</div>
+	<link rel="stylesheet" href="/css/style.css">
+
+    <div class="update-status" id="update-info">
+  		<span id="system-indicator">🟡</span>
+  		<span id="update-text">Atualizando...</span>
+	</div>
+  </div>
+  <div class="header-right">
+		<button id="theme-toggle" class="theme-btn">
+			🌙
+		</button>
+    <div class="clock-time" id="clock-time"></div>
+    <div class="clock-date" id="clock-date"></div>
+  </div>
+</div>
+
+<div class="dashboard">
+  <div class="layout-container">
+    <div class="side-container" id="side-devices"></div>
+    <div class="main-device" id="main-device"></div>
+  </div>
+</div>
+
+<script>
+let lastUpdateTime = null;      // ⏱ controla o horário da última atualização
+let previousTemperature = null; // 🌡 controla tendência
+let updateInterval = null;
+
+
+// ===============================
+// Buscar dados
+// ===============================
+async function fetchData() {
+  try {
+    const response = await fetch("/temperature");
+    const result = await response.json();
+
+    const devices = result.devices;
+	lastUpdateTime = Date.now();
+
+	// Atualiza imediatamente
+	updateLastUpdateLabel();
+
+	// Se já existir contador, limpa
+	if (updateInterval) {
+	clearInterval(updateInterval);
+	}
+
+	// Cria novo contador sincronizado
+	updateInterval = setInterval(updateLastUpdateLabel, 1000);
+
+
+    // ✅ AQUI entra o indicador verde
+    document.getElementById("system-indicator").textContent = "🟢";
+    document.getElementById("update-text").textContent =
+      "Sistema operacional • " + formatTimeAgo(lastUpdateTime);
+
+    // 👇 DAQUI PARA BAIXO continua igual
+    const mainContainer = document.getElementById("main-device");
+    const sideContainer = document.getElementById("side-devices");
+
+	document.querySelector(".header").classList.remove("offline");
+	document.querySelector(".header").classList.add("online");
+
+    mainContainer.innerHTML = "";
+    sideContainer.innerHTML = "";
+
+    const mainDevice = devices.find(d => d.temperature !== null && d.humidity !== null);
+    const otherDevices = devices.filter(d => d !== mainDevice);
+
+    // ===============================
+    // CARD PRINCIPAL
+    // ===============================
+    if (mainDevice) {
+
+      let alertClass = "";
+      let alertLabel = "";
+
+      if (mainDevice.temperature >= 34) {
+        alertClass = "alert-critical";
+        alertLabel = "🚨 CRÍTICO";
+      } 
+      else if (mainDevice.temperature >= 32) {
+        alertClass = "alert-warning";
+        alertLabel = "⚠️ ATENÇÃO";
+      }
+
+      mainContainer.className = "main-device " + alertClass;
+
+	  const trend = getTemperatureTrend(mainDevice.temperature);
+
+      mainContainer.innerHTML = `
+        <h2>${mainDevice.name}</h2>
+
+		<div class="temperature-value">
+			${mainDevice.temperature}°C 
+			<span class="trend ${trend.className}">
+			${trend.symbol}
+			</span>
+		</div>
+
+
+        <div class="humidity-value">
+          💧 ${mainDevice.humidity}%
+        </div>
+
+        <p>${alertLabel}</p>
+      `;
+    }
+
+    // ===============================
+    // CARDS SECUNDÁRIOS
+    // ===============================
+    otherDevices.forEach(d => {
+      const div = document.createElement("div");
+      div.className = "side-device";
+
+      const statusText = d.online ? "Online" : "Offline";
+      const statusClass = d.online ? "status-online" : "status-offline";
+
+      div.innerHTML = `
+        <h2>${d.name}</h2>
+        <p>Status: <span class="${statusClass}">${statusText}</span></p>
+      `;
+
+      sideContainer.appendChild(div);
+    });
+
+  } catch (error) {
+
+    // ✅ AQUI entra o indicador vermelho
+    document.getElementById("system-indicator").textContent = "🔴";
+    document.getElementById("update-text").textContent =
+      "Falha de comunicação com servidor";
+	document.querySelector(".header").classList.remove("online");
+	document.querySelector(".header").classList.add("offline");
+
+
+  }
+}
+
+// ===============================
+// Atualização dinâmica do label
+// ===============================
+function formatTimeAgo(timestamp) {
+  const diff = Math.floor((Date.now() - timestamp) / 1000);
+
+  if (diff === 0) return "Agora mesmo";
+  if (diff < 60) return `Há ${diff}s`;
+  
+  const minutes = Math.floor(diff / 60);
+  return `Há ${minutes} min`;
+}
+
+function getTemperatureTrend(currentTemp) {
+  if (previousTemperature === null) {
+    previousTemperature = currentTemp;
+    return { symbol: "", className: "" };
+  }
+
+  let trend = { symbol: "➖", className: "trend-neutral" };
+
+  if (currentTemp > previousTemperature) {
+    trend = { symbol: "▲", className: "trend-up" };
+  } else if (currentTemp < previousTemperature) {
+    trend = { symbol: "▼", className: "trend-down" };
+  }
+
+  previousTemperature = currentTemp;
+
+  return trend;
+}
+
+function updateLastUpdateLabel() {
+  if (!lastUpdateTime) return;
+
+  const text = document.getElementById("update-text");
+
+  if (text) {
+    text.textContent =
+      "Sistema operacional • " + formatTimeAgo(lastUpdateTime);
+  }
+}
+
+
+// ===============================
+// Inicialização
+// ===============================
+fetchData();               // executa imediatamente
+setInterval(fetchData, 10000);  // a cada 10s
+
+// ===============================
+// Relógio
+// ===============================
+function updateClock() {
+  const now = new Date();
+
+  const time = now.toLocaleTimeString('pt-BR');
+  const date = now.toLocaleDateString('pt-BR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  });
+
+  document.getElementById("clock-time").textContent = time;
+  document.getElementById("clock-date").textContent = date;
+}
+
+updateClock();
+setInterval(updateClock, 1000);
+
+console.log("%cPainel IoT Monitor v3.0", "color: #007acc; font-size: 16px; font-weight: bold;");
+console.log("Desenvolvido por Welerson Reis • 2026");
+const themeBtn = document.getElementById("theme-toggle");
+
+themeBtn.addEventListener("click", () => {
+  document.body.classList.toggle("dark-mode");
+
+  if (document.body.classList.contains("dark-mode")) {
+    themeBtn.textContent = "☀️";
+    localStorage.setItem("theme", "dark");
+  } else {
+    themeBtn.textContent = "🌙";
+    localStorage.setItem("theme", "light");
+  }
+});
+
+// Mantém escolha ao recarregar
+if (localStorage.getItem("theme") === "dark") {
+  document.body.classList.add("dark-mode");
+  themeBtn.textContent = "☀️";
+}
+</script>
+</body>
+<!--
+============================================================
+Projeto: Painel IoT Monitor
+Autor: Welerson Reis
+Ano: 2026
+Descrição: Dashboard de monitoramento integrado com Tuya Cloud API
+GitHub:**   https://github.com/reisdev26  
+LinkedIn:** https://www.linkedin.com/in/welerson-reis-/  
+============================================================
+-->
+</html>

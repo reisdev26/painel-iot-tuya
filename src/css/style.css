@@ -1,0 +1,308 @@
+/*
+============================================================
+Projeto: Painel IoT Monitor
+Autor: Welerson Reis
+Versão: 3.0
+Ano: 2026
+
+Descrição:
+Estilos visuais do painel:
+- Layout lateral
+- Tema claro
+- Tema escuro (NOC)
+- Animações de alerta
+- Responsividade
+
+GitHub:   https://github.com/reisdev26
+LinkedIn: https://www.linkedin.com/in/welerson-reis-/
+============================================================
+*/
+
+/* ==========================================================
+   RESET BÁSICO
+========================================================== */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  background: #f4f6f9;
+  color: #333;
+  padding: 30px;
+  text-align: center;
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+/* ==========================================================
+   HEADER
+========================================================== */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  padding: 20px 30px;
+  border-radius: 18px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+  margin-bottom: 30px;
+  transition: background 0.4s ease, box-shadow 0.4s ease;
+}
+
+.header-left {
+  text-align: left;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.update-status {
+  font-size: 13px;
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #666;
+}
+
+.header-right {
+  text-align: right;
+}
+
+.clock-time {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.clock-date {
+  font-size: 12px;
+  color: #777;
+}
+
+#system-indicator {
+  font-size: 14px;
+}
+
+/* ==========================================================
+   DASHBOARD LAYOUT
+========================================================== */
+
+.dashboard {
+  max-width: 1100px;
+  margin: 40px auto;
+}
+
+.layout-container {
+  display: flex;
+  gap: 20px; /* ajuste fino solicitado */
+  align-items: stretch;
+}
+
+/* ==========================================================
+   COLUNA LATERAL
+========================================================== */
+
+.side-container {
+  width: 240px; /* ajuste fino solicitado */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.side-device {
+  flex: 1;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  padding: 25px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: 0.3s;
+}
+
+/* ==========================================================
+   CARD PRINCIPAL
+========================================================== */
+
+.main-device {
+  flex: 1;
+  background: #ffffff;
+  border-radius: 25px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+  padding: 60px; /* ajuste equilibrado */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: 0.3s;
+}
+
+.main-device h2 {
+  font-size: 26px;
+  margin-bottom: 25px;
+  font-weight: 600;
+}
+
+/* ==========================================================
+   TEMPERATURA / UMIDADE
+========================================================== */
+
+.temperature-value {
+  font-size: 72px;
+  font-weight: 700;
+  margin: 10px 0;
+  transition: 0.3s ease;
+}
+
+.humidity-value {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+.trend {
+  font-size: 28px;
+  margin-left: 10px;
+  font-weight: bold;
+  transition: 0.3s ease;
+}
+
+.trend-up {
+  color: #dc3545;
+}
+
+.trend-down {
+  color: #007bff;
+}
+
+.trend-neutral {
+  color: #999;
+}
+
+/* ==========================================================
+   STATUS
+========================================================== */
+
+.status-online {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.status-offline {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+/* ==========================================================
+   ALERTAS
+========================================================== */
+
+.alert-warning {
+  background: linear-gradient(135deg, #fff3cd, #ffeeba);
+  border: 3px solid #ffc107;
+}
+
+.alert-critical {
+  background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+  border: 3px solid #dc3545;
+}
+
+/* ==========================================================
+   BOTÃO DE TEMA
+========================================================== */
+
+.theme-btn {
+  margin-left: 20px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  background: #f0f0f0;
+  transition: 0.3s ease;
+}
+
+.theme-btn:hover {
+  opacity: 0.8;
+}
+
+/* ==========================================================
+   DARK MODE (NOC)
+========================================================== */
+
+body.dark-mode {
+  background: linear-gradient(135deg, #0f172a, #111827);
+  color: #e2e8f0;
+}
+
+body.dark-mode .header {
+  background: #1e293b;
+  border: 1px solid #334155;
+}
+
+body.dark-mode .header.online {
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+}
+
+body.dark-mode .header.offline {
+  box-shadow: 0 0 20px rgba(220, 53, 69, 0.5);
+}
+
+body.dark-mode .main-device {
+  background: #1e293b;
+  border: 1px solid #334155;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+}
+
+body.dark-mode .side-device {
+  background: #1e293b;
+  border: 1px solid #334155;
+}
+
+body.dark-mode .temperature-value {
+  color: #38bdf8;
+  font-size: 80px;
+  letter-spacing: 2px;
+}
+
+body.dark-mode .humidity-value,
+body.dark-mode .update-status {
+  color: #94a3b8;
+}
+
+body.dark-mode .theme-btn {
+  background: #334155;
+  color: #e2e8f0;
+}
+
+/* ==========================================================
+   ANIMAÇÃO CRÍTICO
+========================================================== */
+
+@keyframes pulseCritical {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.01); }
+  100% { transform: scale(1); }
+}
+
+body.dark-mode .alert-critical {
+  animation: pulseCritical 2s infinite ease-in-out;
+}
+
+/* ==========================================================
+   RESPONSIVO
+========================================================== */
+
+@media (max-width: 900px) {
+  .layout-container {
+    flex-direction: column;
+  }
+
+  .side-container {
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+  }
+}

@@ -2,7 +2,7 @@
  * ============================================================
  *  Projeto: Painel de Monitoramento IoT - Tuya Cloud
  *  Autor: Welerson Reis
- *  Versão: 2.0
+ *  Versão: 3.0
  *  Data: 2026
  *  Descrição: Painel para monitorar a temperatura do CPD
  *  Dashboard para monitoramento de dispositivos IoT (Temperatura,
@@ -23,6 +23,7 @@ const cors = require("cors");
 
 const app = express();
 app.use(cors());
+app.use(express.static(__dirname));
 
 const Datacenter_CLM_ID_DEVICES = process.env.Datacenter_CLM_ID_DEVICES;
 const AR_CPD_CLM_ID_DEVICES = process.env.AR_CPD_CLM_ID_DEVICES;
@@ -71,12 +72,20 @@ function generateSign(method, url, body, accessToken = "") {
 // =============================
 // 🔐 Obter Access Token
 // =============================
+let cachedToken = null;
+let tokenExpireTime = 0;
+
 async function getAccessToken() {
+  const now = Date.now();
+
+  if (cachedToken && now < tokenExpireTime) {
+    return cachedToken;
+  }
+
   const method = "GET";
   const url = "/v1.0/token?grant_type=1";
-  const body = "";
 
-  const { signature, t } = generateSign(method, url, body);
+  const { signature, t } = generateSign(method, url, "");
 
   const response = await axios.get(BASE_URL + url, {
     headers: {
@@ -87,8 +96,16 @@ async function getAccessToken() {
     },
   });
 
-  if (!response.data.success) throw new Error(JSON.stringify(response.data));
-  return response.data.result.access_token;
+  if (!response.data.success) {
+    throw new Error(JSON.stringify(response.data));
+  }
+
+  cachedToken = response.data.result.access_token;
+
+  // Subtrai 60 segundos de segurança
+  tokenExpireTime = now + (response.data.result.expire_time - 60) * 1000;
+
+  return cachedToken;
 }
 
 // =============================
@@ -150,8 +167,12 @@ app.get("/temperature", async (req, res) => {
       })
     );
 
-    res.json(results);
-  } catch (err) {
+  res.json({
+    updatedAt: Date.now(),
+    devices: results
+  });
+
+} catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
