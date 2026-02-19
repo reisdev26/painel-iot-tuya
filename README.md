@@ -1,5 +1,5 @@
 ## 📷 Preview do Dashboard
-![Dashboard Preview](.docs/screenshot.png)
+![Dashboard Preview](./docs/screenshot.png)
 
 \# 🧠 Painel IoT de Monitoramento – Tuya Cloud
 
