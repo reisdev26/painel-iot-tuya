@@ -11,9 +11,11 @@
  *  - Tendência de temperatura
  *  - Tema claro/escuro
  *
+ * 
  *  GitHub:   https://github.com/reisdev26
  *  LinkedIn: https://www.linkedin.com/in/welerson-reis-/
  * ============================================================
+ * 
  */
 
 let lastUpdateTime = null;      // ⏱ controla o horário da última atualização
