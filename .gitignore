@@ -1,2 +1,31 @@
-node_modules/
+# --- SEGREDOS E CONFIGS ---
 .env
+.env.local
+credentials.json
+*.pem
+
+# --- NODE.JS ---
+node_modules/
+npm-debug.log*
+.eslintcache
+
+# --- PYTHON ---
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+.env/
+
+# --- INFRA E LOGS ---
+*.log
+.vscode/
+.idea/
+*.tmp
+*.bak
+
+# --- WINDOWS ---
+Thumbs.db
+Desktop.ini
+node_modules/
